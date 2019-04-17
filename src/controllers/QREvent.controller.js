@@ -1,21 +1,14 @@
 const User = require('../models/User.model');
 
-exports.index = function(req,res,next) {
+exports.index = function(req,res) {
     User.findById(res.userID).exec(function (err,user){
         if(err){
-            return next(err);
+            res.status(500).send('Couldn\'t find user');
+            return;
         }
-        res.QREvents = user.qrEvents;
-        next();
-    });
-}
+        res.send(JSON.stringify(user.qrEvents,null,'\t'));
 
-exports.create_response = function(req,res) {
-    res.QREvents.map((event) => {
-        delete event._id
-        delete event.__v
     });
-    res.send(JSON.stringify(res.QREvents,null,'\t'));
 }
 
 exports.new = function(req,res) {

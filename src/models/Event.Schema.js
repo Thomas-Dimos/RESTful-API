@@ -7,6 +7,6 @@ const EventSchema = new Schema({
     location: LocationSchema,
     //eventType: {type: String,required: true},
     data: {type: String, required: true}
-});
+},{_id: false});
 
 module.exports = EventSchema;

@@ -5,6 +5,6 @@ const Authentication_controller = require('../controllers/Authentication.control
 
 
 router.use(Authentication_controller.isAuthenticated);
-router.get('/', [QREvent_controller.index,QREvent_controller.create_response]);
+router.get('/', QREvent_controller.index);
 router.post('/new',QREvent_controller.new);
 module.exports = router;

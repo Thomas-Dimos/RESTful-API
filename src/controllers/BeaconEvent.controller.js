@@ -1,24 +1,17 @@
 
 const User = require('../models/User.model');
 
-exports.index = function(req,res,next) {
+exports.index = function(req,res) {
 
     User.findById(res.userID).exec(function (err,user){
         if(err){
-            return next(err);
+            res.status(500).send('Couldn\'t find user');
+            return;
         }
-        res.BeaconEvents = user.beaconEvents;
-        next();
+        res.send(JSON.stringify(user.beaconEvents,null,'\t'));
+
     });
 
-}
-
-exports.create_response = function(req,res) {
-    res.BeaconEvents.map((event) => {
-        delete event._id
-        delete event.__v
-    });
-    res.send(JSON.stringify(res.BeaconEvents,null,'\t'));
 }
 
 exports.new = function(req,res,next) {

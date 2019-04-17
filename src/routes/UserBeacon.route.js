@@ -5,6 +5,6 @@ const Authentication_controller = require('../controllers/Authentication.control
 
 
 router.use(Authentication_controller.isAuthenticated);
-router.get('/', [BeaconEvent_controller.index,BeaconEvent_controller.create_response]);
+router.get('/', BeaconEvent_controller.index);
 router.post('/new',BeaconEvent_controller.new);
 module.exports = router;
