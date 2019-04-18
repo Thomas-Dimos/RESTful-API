@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const LocationSchema = require('./LocationSchema');
 
 const EventSchema = new Schema({
-    timeStamp: {type: String,required: true},
+    timeStamp: {type: Date,required: true},
     location: LocationSchema,
     //eventType: {type: String,required: true},
     data: {type: String, required: true}

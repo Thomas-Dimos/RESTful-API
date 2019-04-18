@@ -1,14 +1,19 @@
 
 const User = require('../models/User.model');
 
-exports.index = function(req,res) {
+exports.index = function(req,res,next) {
 
     User.findById(res.userID).exec(function (err,user){
         if(err){
             res.status(500).send('Couldn\'t find user');
             return;
         }
-        res.send(JSON.stringify(user.beaconEvents,null,'\t'));
+        if(req.path === '/Events'){
+            res.beaconEvents = user.beaconEvents;
+            next();
+        }else{
+            res.send(JSON.stringify(user.beaconEvents,null,'\t'));
+        }
 
     });
 
@@ -16,8 +21,9 @@ exports.index = function(req,res) {
 
 exports.new = function(req,res,next) {
     User.findById(res.userID).exec().then(function(user){
+        const date = new Date(req.body.timeStamp);
         user.beaconEvents.push({
-            timeStamp: req.body.timeStamp,
+            timeStamp: date,
             location: {
                 speed: req.body.location.speed,
                 heading: req.body.location.heading,

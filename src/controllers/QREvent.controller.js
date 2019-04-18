@@ -1,12 +1,21 @@
 const User = require('../models/User.model');
 
-exports.index = function(req,res) {
-    User.findById(res.userID).exec(function (err,user){
+exports.index = function(req,res,next) {
+    User.findOne({'_id': res.userID},'qrEvents', {$sort : {timeStamp:1}}
+    ).exec(function (err,user){
         if(err){
             res.status(500).send('Couldn\'t find user');
             return;
         }
-        res.send(JSON.stringify(user.qrEvents,null,'\t'));
+        if(req.path === '/Events'){
+            res.qrEvents = user.qrEvents;
+            next();
+        }else{
+                console.log(user);
+                res.send(JSON.stringify(user.qrEvents,null,'\t'));
+            
+        }
+        
 
     });
 }
@@ -14,8 +23,10 @@ exports.index = function(req,res) {
 exports.new = function(req,res) {
 
     User.findById(res.userID).exec().then(function(user){
+        let date = new Date(req.body.timeStamp);
+        date.setHours((date.getHours()+2));
         user.qrEvents.push({
-            timeStamp: req.body.timeStamp,
+            timeStamp: date,
             location: {
                 speed: req.body.location.speed,
                 heading: req.body.location.heading,
