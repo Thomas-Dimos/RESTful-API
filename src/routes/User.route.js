@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const User_controller = require('../controllers/User.controller');
-const BeaconEvent_controller = require('../controllers/BeaconEvent.controller');
 const Authentication_controller = require('../controllers/Authentication.controller');
-const QREvent_controller = require('../controllers/QREvent.controller');
+const Event_controller = require('../controllers/Event.controller');
 
 router.post('/sign-up',[User_controller.checkIfUserExists,User_controller.signup]);
 router.post('/log-in',User_controller.login);
 router.get('/refresh',Authentication_controller.refreshToken);
-router.get('/Events',[Authentication_controller.isAuthenticated,BeaconEvent_controller.index,QREvent_controller.index,User_controller.prepareEvents])
-
+router.get('/Events',[Authentication_controller.isAuthenticated,Event_controller.index]);
+router.get('/Events/new',[Authentication_controller.isAuthenticated,Event_controller.new]);
+router.get('/Events/QR',[Authentication_controller.isAuthenticated,Event_controller.getEvents]);
+router.get('/Events/Beacon',[Authentication_controller.isAuthenticated,Event_controller.getEvents]);
 module.exports = router;
