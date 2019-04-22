@@ -1,7 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const UserQRRouter = require('./routes/UserQR.route');
-const UserBeaconRouter = require('./routes/UserBeacon.route');
 const UserRouter = require('./routes/User.route');
 const app = express();
 
@@ -18,8 +16,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use('/User/BeaconEvents',UserBeaconRouter);
-app.use('/User/QREvents',UserQRRouter);
 app.use('/User',UserRouter);
 
 const port = 9999;
