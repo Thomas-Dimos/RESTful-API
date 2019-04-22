@@ -4,16 +4,16 @@ const mongoose = require('mongoose');
 
 exports.getEvents = function(req,res,next) {
     const userID = mongoose.Types.ObjectId(res.userID);
-    if(req.path === '/QR'){
-        User.find({"_id": userID,"Events.eventType" : 'QREvent'}).exec(function (err,qrEvents){
+    if(req.path === 'Event/QR'){
+        User.find({"_id": userID},{"Events.eventType" : "QREvent"}).exec(function (err,qrEvents){
             if(err){
                 res.status(500).send('Unexpected Internal Error');
                 return;
             }
             res.send(JSON.stringify(qrEvents,null,'\t'));
         });
-    }else{
-        User.find({"_id": userID,"Events.eventType" : 'BeaconEvent'}).exec(function (err,beaconEvents){
+    }else if (req.path === 'Event/Beacon'){
+        User.find({"_id": userID},{"Events.eventType" : "BeaconEvent"}).exec(function (err,beaconEvents){
             if(err){
                 res.status(500).send('Couldn\'t find user');
                 return;
@@ -91,7 +91,7 @@ exports.newSync = function(req,res) {
                 res.status(500).send('Unable to save to Database');
                 return;
             }
-            res.send('BeaconEvent successfully stored in database');
+            res.send('Event successfully stored in database');
         });
     });
 }

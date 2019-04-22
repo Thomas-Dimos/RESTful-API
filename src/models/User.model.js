@@ -5,8 +5,7 @@ const EventSchema = require('./Event.Schema');
 const UserSchema = new Schema ({
     username: {type: String,required: true},
     password: {type: String, required: true},
-    beaconEvents: [EventSchema],
-    qrEvents: [EventSchema]
+    Events: [EventSchema],
 });
 
 module.exports = mongoose.model('User', UserSchema,'UserCollection');
