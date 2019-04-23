@@ -1,6 +1,7 @@
 const User = require('../models/User.model');
 const mongoose = require('mongoose');
 
+//BUG WITH DATES.FOR SOME REASON PARSING THE TIMESTAMP GIVES WRONG HOUR
 
 exports.getEvents = function(req,res) {
     const userID = mongoose.Types.ObjectId(res.userID);
@@ -50,10 +51,9 @@ exports.index = function(req,res) {
 }
 
 exports.new = function(req,res) {
-    
     User.findById(res.userID).exec().then(function(user){
         const date = new Date(req.body.timeStamp);
-        date.setHours((date.getHours()+2));
+        date.setHours((date.getHours()+3));
         user.Events.push({
             timeStamp: date,
             location: {
@@ -69,7 +69,7 @@ exports.new = function(req,res) {
         });
         user.save((err) => {
             if(err){
-                console.log(err);
+               // console.log(err);
                 res.status(500).send('Unable to save to Database');
                 return ;
             }
@@ -80,7 +80,7 @@ exports.new = function(req,res) {
 
 exports.newSync = function(req,res) {
     const date = new Date(req.body.timeStamp);
-    date.setHours((date.getHours()+2));
+    date.setHours((date.getHours()+3));
     User.updateOne(
         {"_id" : res.userID},
         {"$push": {
