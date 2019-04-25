@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const UserRouter = require('./routes/User.route');
 const app = express();
+const cors = require('cors');
 
 //Setup Database
 const mongoose = require('mongoose');
@@ -16,6 +17,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cors());
 app.use('/User',UserRouter);
 
 const port = 9999;
