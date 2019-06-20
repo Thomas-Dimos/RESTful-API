@@ -6,7 +6,7 @@ const cors = require('cors');
 
 //Setup Database
 const mongoose = require('mongoose');
-const dev_db_url = 'mongodb+srv://tomdimos:2651o534@testcluster-nkpba.mongodb.net/test?retryWrites=true';
+const dev_db_url = 'mongodb+srv://tomdimos:*******@testcluster-nkpba.mongodb.net/test?retryWrites=true';
 let mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.set('useNewUrlParser', true);
 mongoose.connect(mongoDB);
